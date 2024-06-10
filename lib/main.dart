@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:future/screens/onboarding_screen.dart';
+import 'package:future/router/router.dart';
 import 'package:future/themes/theme.dart';
 
 void main() {
@@ -18,12 +18,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
-      home: OnBoarding(),
+      routerConfig: router, // Use GoRouter
     );
   }
 }
