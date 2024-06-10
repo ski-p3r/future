@@ -39,7 +39,7 @@ class _OnBoardingState extends State<OnBoarding> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(26.0),
           child: Column(
             children: [
               Expanded(
@@ -182,7 +182,7 @@ class OnboardingComponent extends StatelessWidget {
           SizedBox(height: 16),
           Text(
             onboard.description,
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.start,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w100,
