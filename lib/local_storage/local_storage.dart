@@ -1,14 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> saveData() async {
+Future<void> saveData(String key, String value) async {
   final prefs = await SharedPreferences.getInstance();
-  await prefs.setString('key', 'value');
+  await prefs.setString(key, value);
 }
 
-Future<void> readData() async {
+Future<String?> readData(String key) async {
   final prefs = await SharedPreferences.getInstance();
-  final value = prefs.getString('key') ?? 'default_value';
-  print(value);
+  return prefs.getString(key);
 }
 
 Future<void> modifyData(String key, String newValue) async {
