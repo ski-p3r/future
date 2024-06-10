@@ -13,7 +13,6 @@ class Input extends StatefulWidget {
     this.isSecure = false,
     this.prefix = '',
     this.suffix = '',
-    this.borderColor = Colors.black,
     this.borderWidth = 1.0,
   }) : super(key: key);
 
@@ -25,7 +24,6 @@ class Input extends StatefulWidget {
   final TextInputAction textInputAction;
   final TextEditingController controller;
   final bool isSecure;
-  final Color borderColor;
   final double borderWidth;
 
   @override
@@ -34,6 +32,7 @@ class Input extends StatefulWidget {
 
 class _InputState extends State<Input> {
   late FocusNode _focusNode;
+  bool _isPasswordVisible = false;
 
   @override
   void initState() {
@@ -49,6 +48,10 @@ class _InputState extends State<Input> {
 
   @override
   Widget build(BuildContext context) {
+    final Color textColor = Theme.of(context).brightness == Brightness.dark
+        ? MainColors.darkText
+        : MainColors.text;
+
     final Color inputBgColor = Theme.of(context).brightness == Brightness.dark
         ? MainColors.darkBoxColor
         : MainColors.boxColor;
@@ -57,41 +60,60 @@ class _InputState extends State<Input> {
             ? MainColors.pDarkText
             : MainColors.pText;
 
+    Widget? suffixIcon;
+    if (widget.isSecure) {
+      suffixIcon = GestureDetector(
+        onTap: () {
+          setState(() {
+            _isPasswordVisible = !_isPasswordVisible;
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SvgPicture.asset(
+            _isPasswordVisible
+                ? 'assets/icons/visibility.svg'
+                : 'assets/icons/visibility-off.svg',
+            color: textColor,
+          ),
+        ),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.name),
+        Text(
+          widget.name,
+          style: TextStyle(color: textColor, fontWeight: FontWeight.w500),
+        ),
         const SizedBox(height: 8.0),
         TextField(
           controller: widget.controller,
           keyboardType: widget.keyboardType,
           textInputAction: widget.textInputAction,
-          obscureText: widget.isSecure,
-          style: TextStyle(color: Theme.of(context).textTheme.bodySmall!.color),
+          obscureText: widget.isSecure ? !_isPasswordVisible : false,
+          style: TextStyle(color: textColor),
           focusNode: _focusNode,
           decoration: InputDecoration(
             hintText: widget.placeholder,
-            hintStyle: TextStyle(color: placeholderColor),
+            hintStyle:
+                TextStyle(color: placeholderColor, fontWeight: FontWeight.w100),
             prefixIcon: widget.prefix.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.all(12.0),
-                    child: SvgPicture.asset(widget.prefix),
+                    child: SvgPicture.asset(
+                      widget.prefix,
+                      color: textColor,
+                    ),
                   )
                 : null,
-            suffixIcon: widget.suffix.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: SvgPicture.asset(widget.suffix),
-                  )
-                : null,
+            suffixIcon: suffixIcon,
             border: OutlineInputBorder(
               borderSide: BorderSide(
-                color: _focusNode.hasFocus
-                    ? Theme.of(context).primaryColor
-                    : inputBgColor,
                 width: widget.borderWidth,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
             ),
             filled: true,
             fillColor: inputBgColor,

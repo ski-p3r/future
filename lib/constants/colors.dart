@@ -16,7 +16,7 @@ class MainColors {
   static const Color darkInactive = Color(0xFF8E8E8E);
 
   static const Color pText = Color(0xFF494E57);
-  static const Color pDarkText = Color(0xFF676B71);
+  static const Color pDarkText = Color(0xFFCCCCCC);
   static const Color text = Color(0xFF00000F);
   static const Color darkText = Color(0xFFFFFFFF);
 }

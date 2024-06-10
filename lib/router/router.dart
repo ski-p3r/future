@@ -4,7 +4,7 @@ import 'package:future/screens/onboarding_screen.dart';
 import 'package:future/main.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/register',
   routes: [
     GoRoute(
       path: '/',
