@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:future/common/button.dart';
 import 'package:future/common/input.dart';
+import 'package:future/validators/validator.dart';
+import 'package:future/components/snack.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -78,12 +80,62 @@ class _RegisterState extends State<Register> {
   }
 
   void _register() {
-    final String firstName = _firstNameController.text;
-    final String lastName = _lastNameController.text;
-    final String email = _emailController.text;
-    final String password = _passwordController.text;
-    print(
-        'Registering with: First Name: $firstName, Last Name: $lastName, Email: $email, Password: $password');
+    if (_validateFields()) {
+      try {
+        final String firstName = _firstNameController.text;
+        final String lastName = _lastNameController.text;
+        final String email = _emailController.text;
+        final String password = _passwordController.text;
+        print(
+            'Registering with: First Name: $firstName, Last Name: $lastName, Email: $email, Password: $password');
+      } catch (e) {
+        print('Error accessing controller text: $e');
+      }
+    }
+  }
+
+  bool _validateFields() {
+    if (_firstNameController.text.isEmpty) {
+      _showSnackBar(context, 'Please enter your first name');
+      return false;
+    }
+    if (_lastNameController.text.isEmpty) {
+      _showSnackBar(context, 'Please enter your last name');
+      return false;
+    }
+    if (_emailController.text.isEmpty) {
+      _showSnackBar(context, 'Please enter your email');
+      return false;
+    }
+    if (_passwordController.text.isEmpty) {
+      _showSnackBar(context, 'Please enter your password');
+      return false;
+    }
+    // Perform email and password validation
+    final String? emailError = Validators.validateEmail(_emailController.text);
+    if (emailError != null) {
+      _showSnackBar(context, emailError);
+      return false;
+    }
+    final String? passwordError =
+        Validators.validatePassword(_passwordController.text);
+    if (passwordError != null) {
+      _showSnackBar(context, passwordError);
+      return false;
+    }
+    return true;
+  }
+
+  void _showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      backgroundColor: Colors.white.withOpacity(0.8),
+      content: CustomSnackBar(
+        message: message,
+        backgroundColor: Colors.red, // Customize background color if needed
+        textColor: Colors.white, // Customize text color if needed
+      ),
+      duration: const Duration(seconds: 3), // Adjust duration as needed
+    ));
   }
 
   @override
