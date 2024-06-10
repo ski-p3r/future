@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:future/common/button.dart';
 import 'package:future/common/input.dart';
 
 class Register extends StatefulWidget {
@@ -22,7 +23,12 @@ class _RegisterState extends State<Register> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Spacer(),
+            const Spacer(),
+            const Text(
+              "Create a new\naccount",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+            ),
+            const SizedBox(height: 16.0),
             Input(
               name: 'First Name',
               placeholder: 'Enter your first name',
@@ -59,12 +65,12 @@ class _RegisterState extends State<Register> {
               controller: _passwordController,
               isSecure: true,
             ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
+            const SizedBox(height: 25.0),
+            CustomButton(
               onPressed: _register,
-              child: const Text('Register'),
+              name: 'Register',
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ),
@@ -76,8 +82,6 @@ class _RegisterState extends State<Register> {
     final String lastName = _lastNameController.text;
     final String email = _emailController.text;
     final String password = _passwordController.text;
-
-    // Here you can implement your registration logic
     print(
         'Registering with: First Name: $firstName, Last Name: $lastName, Email: $email, Password: $password');
   }
