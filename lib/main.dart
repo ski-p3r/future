@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
-      routerConfig: router, // Use GoRouter
+      routerConfig: router,
     );
   }
 }
